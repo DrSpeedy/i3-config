@@ -89,15 +89,15 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $ws1 1: Command
-set $ws2 2: Chrome
+set $ws1 1: System
+set $ws2 2: Browser
 set $ws3 3: Files
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9"
+set $ws9 9: VirtualBox
 set $ws10 10: Spotify
 
 # switch to workspace
@@ -157,19 +157,19 @@ bar {
   strip_workspace_numbers yes
   font pango:Ubuntu, Awesome 10
   colors {
-    separator #AAAAAA
-    background #1f2326
-    statusline #FFFFFF
-    focused_workspace #9FCA56 #9FCA56 #151718
-    active_workspace #DCCD69 #DCCD69 #151718
-    inactive_workspace #1f2326 #1f2326 #AAAAAA
-    urgent_workspace #CE4045 #CE4045 #FFFFFF
+    separator #666666
+    background #222222
+    statusline #dddddd
+    focused_workspace #0088CC #0088CC #ffffff
+    active_workspace #333333 #333333 #ffffff
+    inactive_workspace #333333 #333333 #888888
+    urgent_workspace #2f343a #900000 #ffffff
   }
 }
 
 # Auto start
+exec --no-startup-id volumeicon                             # Volume management
 exec --no-startup-id nm-applet                              # Network manager
-#exec --no-startup-id xfce4-panel --disable-wm-check         # Xfce4 panel in i3
 exec --no-startup-id xfce4-power-manager                    # Xfce4 power management
 exec --no-startup-id compton -b -f                          # Window compositing
 
@@ -179,19 +179,18 @@ exec_always --no-startup-id feh --bg-scale $confdir/desktop-wallpaper.jpg
 
 # Window preferences
 for_window [instance="oblogout"] floating enabled
+for_window [instance="spotify"] move window to workspace $ws10
 
 for_window [class=".*"] title_format "<b> %title</b>"
 
 # Class assignments
-#assign [class="Arduino" instance="sun-awt-X11-XFramePeer"] 10
-assign [class="spotify"] $ws10
 assign [class="Thunar"] $ws3
 assign [class="Chromium"] $ws2
 
 
 # Key bindings
 bindsym $mod+Escape exec oblogout
-bindsym $mod+p exec rofi -theme ~/.config/i3/rofi/glue_pro_blue.rasi -show run
+bindsym $mod+p exec rofi -theme $confdir/rofi/glue_pro_blue.rasi -show run
 
 
 # reload the configuration file
@@ -216,7 +215,7 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-client.focused #4F99D3 #4F99D3 #151718 #9FCA56
-client.focused_inactive #9FCA56 #9FCA56 #151718 #A074C4
-client.unfocused #1f2326 #1f2326 #AAAAAA #A074C4
-client.urgent #CE4045 #CE4045 #FFFFFF #DCCD69
+client.focused #0088CC #0088CC #ffffff #dddddd
+client.focused_inactive #333333 #333333 #888888 #292d2e
+client.unfocused #333333 #333333 #888888 #292d2e
+client.urgent #2f343a #900000 #ffffff #900000

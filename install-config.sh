@@ -1,0 +1,57 @@
+#!/bin/bash
+
+WORKING_DIRECTORY="/tmp"
+CONFIG_DIR="$HOME/.config/i3"
+SYS_DEPENDENCIES=('git')
+
+check_if_already_installed() {
+    if [ -d $HOME/.config/i3 ]; then
+        echo "An i3 configuration is already in place!"
+        while true; do
+            read -r -p "Would you like to back it up? [y/N]" yn
+            case "$yn" in
+                [Yy] ) backup_previous_config
+                    break
+                    ;;
+
+                [Nn] )	break
+                    ;;
+
+                * ) echo "Please answer yes or no"
+                    ;;
+            esac
+        done
+    fi
+}
+
+check_sys_dependencies() {
+    echo "Checking dependencies..."
+    for dep in "${SYS_DEPENDENCIES[@]}"; do
+        which "$dep" > /dev/null 2>&1
+        if [ $? -eq 1 ]; then
+            echo "[Error] Broken dependency: $dep"
+            exit 1
+        fi
+    done
+}
+
+install_configuration() {
+    echo "Grabbing remote configuration..."
+
+    if [ -d $CONFIG_DIR ]; then
+        echo "Removing existing configuration..."
+        rm -rf $CONFIG_DIR
+    fi
+
+    git clone https://github.com/DrSpeedy/i3-config.git $CONFIG_DIR
+}
+
+backup_previous_config() {
+    echo "Backing up previous configuration..."
+    mv $CONFIG_DIR $CONFIG_DIR/../.i3.b-$(date +'%Y%d%m')
+}
+
+check_sys_dependencies
+install_configuration
+
+echo "Done installing configuration."
