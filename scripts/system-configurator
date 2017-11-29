@@ -1,0 +1,21 @@
+#!/bin/bash
+
+BACKTITLE="[ ArchLinux - CONFIGURATOR ]"
+
+request_sudo_permission () {
+    if [ "$(id -nu)" != "root" ]; then
+        sudo -k
+        PASSWORD=$(dialog --clear --backtitle $BACKTITLE --passwordbox 10 30 3>&2 2>&1 1>&3)
+
+        exec sudo -S -p '' "$0" "$@" <<< $PASSWORD
+    fi
+}
+
+draw_system_menu () {
+    OPTION=$(dialog --clear --backtitle "[ ArchLinux - CONFIGURATOR ]" \
+    --title "[ SYSTEM - MENU ]" \
+    --menu "$MENUTEXT" 20 75 8 \
+    "Update" "Update the system and AUR packages" 3>&2 2>&1 1>&3)
+}
+
+request_sudo_permission

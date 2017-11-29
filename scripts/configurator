@@ -84,18 +84,16 @@ draw_main_menu () {
     --menu "$MENUTEXT" 20 75 8 \
     "Open Config" "Open gVim in config directory" \
     "Appearance >" "Change appearance settings for i3" \
-    "Reload i3" "Reload i3-wm" \
-    "Reboot" "Reboot the system" \
-    "Power off" "Power off the system"\
+    "System >" "View/change ArchLinux system settings" \
+    "Restart i3" "Restart i3-wm" \
     "Exit" "Exit dialog" 3>&2 2>&1 1>&3)
 
     if [ $? -eq 0 ]; then
         case $OPTION in
             "Open Config") exec gvim "+normal ,ei";;
             "Appearance >") draw_appearance_menu;;
-            "Reload i3") i3-msg -q reload;;
-            "Reboot") reboot;;
-            "Power off") poweroff;;
+            "System >") bash -x $CONFIGD/scripts/system-configurator;;
+            "Restart i3") i3-msg -q restart;;
             "Exit") exit 0;;
         esac
     else
@@ -105,5 +103,5 @@ draw_main_menu () {
 
     draw_main_menu
 }
+
 draw_main_menu
-#draw_theme_menu "[ DEFAULT - THEMES ]" $DEFAULT

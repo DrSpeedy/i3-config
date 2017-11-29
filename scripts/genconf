@@ -1,0 +1,42 @@
+#!/bin/bash
+
+CONFIGD="$HOME/.config/i3"
+TEMPLATED="$CONFIGD/template"
+
+read -r -d '' CONFIGMSG <<'END_HEREDOC'
+#      ____  ____       ____                      _          ___ _____                            ____             __ _       
+#     / __ \|  _ \ _ __/ ___| _ __   ___  ___  __| |_   _   / (_)___ /     __      ___ __ ___    / ___|___  _ __  / _(_) __ _ 
+#    / / _` | | | | '__\___ \| '_ \ / _ \/ _ \/ _` | | | | / /| | |_ \ ____\ \ /\ / / '_ ` _ \  | |   / _ \| '_ \| |_| |/ _` |
+#   | | (_| | |_| | |   ___) | |_) |  __/  __/ (_| | |_| |/ / | |___) |_____\ V  V /| | | | | | | |__| (_) | | | |  _| | (_| |
+#    \ \__,_|____/|_|  |____/| .__/ \___|\___|\__,_|\__, /_/  |_|____/       \_/\_/ |_| |_| |_|  \____\___/|_| |_|_| |_|\__, |
+#     \____/                 |_|                    |___/                                                               |___/ 
+#
+# This file was automatically genereated. Please DO NOT EDIT. Your changes will be erased on next login!
+# Configuration files can be found in $XDG_CONFIG_HOME/i3/template/*.conf. You may manually build i3's config
+# by running the `genconf` command located in the scripts directory (ex. usage `$ genconf > $XDG_CONFIG_HOME/i3/config)
+#
+# Resources for this project can be found on https://github.com/DrSpeedy/i3-config
+#
+#
+
+END_HEREDOC
+
+generate_config () {
+    CONFIG="$CONFIGMSG\n\n"
+    while read -r file; do
+        CONFIG+="$(cat $TEMPLATED/$file)\n\n"
+    done < <(ls -1 $TEMPLATED)
+
+    echo -e "$CONFIG" > $CONFIGD/config
+}
+
+backup_config () {
+    mkdir -p $CONFIGD/backups
+    mv $CONFIGD/config $CONFIGD/backups/config.b-$(date +'%Y%d%m')
+}
+
+echo "Backing up previous config..."
+backup_config
+echo "Compiling new configuration from templates..."
+generate_config
+echo "Done."
