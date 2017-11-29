@@ -146,7 +146,15 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+mode "Move workspace" {
+    #Move current workspace to different output
+    bindsym Left move workspace to output left
+    bindsym Right move workspace to output right
+    #...
+    bindsym Escape mode "default"
+}
 
+bindsym $mod+m mode "Move workspace"
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status

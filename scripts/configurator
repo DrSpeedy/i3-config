@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# @DrSpeedy <Brian Wilson> - I3 Configurator
+# https://github.com/DrSpeedy/i3-config
+
+CONFIGD=$HOME/.config/i3
+
+CUSTOM="$HOME/.config/i3/themes"
+DEFAULT="/lib/node_modules/i3-style/themes"
+
+MENUTEXT="You can use the UP/DOWN arrow keys, the first \n\
+    letter of the choice as a hot key, or the \n\
+    number keys 1-9 to choose an option.\n\
+    Choose the THEME"
+
+# Draw theme selection menu and handle input
+
+draw_theme_menu () {
+
+    SOURCE=$2
+    THEMES=() # working array of themes
+    let i=0 # counter
+    while read -r line; do
+        let i=$i+1
+        THEMES+=($i "$line")
+    done < <(ls -1 "$SOURCE")
+    
+    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
+    --title "$1" \
+    --menu "$MENUTEXT" 20 75 8 \
+    "${THEMES[@]}" 3>&2 2>&1 1>&3)
+
+    if [ $? -eq 0 ]; then # Exit with OK
+        result=$(ls -1 $SOURCE | sed -n "`echo "$OPTION p" | sed 's/ //'`")
+        i3-style $SOURCE/$result -o $CONFIGD/config --reload > /dev/null
+    fi
+
+}
+
+draw_wallpaper_menu () {
+    
+    SOURCE="$CONFIGD/wallpapers"
+    WALLPAPERS=()
+    let i=0
+    while read -r line; do
+        let i=$i+1
+        WALLPAPERS+=($i "$line")
+    done < <(ls -1 "$SOURCE")
+
+    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
+    --title "[ WALLPAPER - MENU ]" \
+    --menu "$MENUTEXT" 20 75 8 \
+    "${WALLPAPERS[@]}" 3>&2 2>&1 1>&3)
+
+    if [ $? -eq 0]; then 
+        result=$(ls -1 $SOURCE | sed -n "`echo "$OPTION p" | sed 's/ //'`")
+        unlink $CONFIGD/desktop-wallpaper.jpg
+        ln -s $SOURCE/$result $CONFIGD/desktop-wallpaper.jpg
+        feh --bg-scale $CONFIGD/desktop-wallpaper.jpg
+    fi
+}
+
+draw_appearance_menu () {
+    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
+    --title "[ APPEARANCE - MENU ]" \
+    --menu "$MENUTEXT" 20 75 8 \
+    "Wallpaper >" "Select desktop wallpaper" \
+    "Default Themes >" "Open i3 theme manager with defaults" \
+    "Custom Themes >" "Open i3 theme manager with customs" \
+    3>&2 2>&1 1>&3)
+
+    if [ $? -eq 0 ]; then
+        case $OPTION in
+            "Wallpaper >") draw_wallpaper_menu;;
+            "Default Themes >") draw_theme_menu "[ DEFAULT - THEMES ]" $DEFAULT;;
+            "Custom Themes >") draw_theme_menu "[ CUSTOM - THEMES ]" $CUSTOM;;
+        esac
+    fi
+}
+
+draw_main_menu () {
+    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
+    --title "[ MAIN - MENU ]" \
+    --menu "$MENUTEXT" 20 75 8 \
+    "Open Config" "Open gVim in config directory" \
+    "Appearance >" "Change appearance settings for i3" \
+    "Reload i3" "Reload i3-wm" \
+    "Reboot" "Reboot the system" \
+    "Power off" "Power off the system"\
+    "Exit" "Exit dialog" 3>&2 2>&1 1>&3)
+
+    if [ $? -eq 0 ]; then
+        case $OPTION in
+            "Open Config") exec gvim "+normal ,ei";;
+            "Appearance >") draw_appearance_menu;;
+            "Reload i3") i3-msg -q reload;;
+            "Reboot") reboot;;
+            "Power off") poweroff;;
+            "Exit") exit 0;;
+        esac
+    else
+        # Cancel pressed
+        exit 1;
+    fi
+
+    draw_main_menu
+}
+draw_main_menu
+#draw_theme_menu "[ DEFAULT - THEMES ]" $DEFAULT
