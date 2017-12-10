@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORKING_DIRECTORY="/tmp"
-CONFIG_DIR="$HOME/.config/i3"
+CONFIG_DIR="$HOME/.dotfiles/i3"
 SYS_DEPENDENCIES=('git')
 
 check_if_already_installed() {
@@ -44,6 +44,7 @@ install_configuration() {
     fi
 
     git clone https://github.com/DrSpeedy/i3-config.git $CONFIG_DIR
+    ln -s $CONFIG_DIR $HOME/.config/i3
 }
 
 backup_previous_config() {

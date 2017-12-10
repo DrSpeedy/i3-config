@@ -13,6 +13,48 @@
 #
 #
 
+#   _____      _                
+#  / ____|    | |               
+# | |     ___ | | ___  _ __ ___ 
+# | |    / _ \| |/ _ \| '__/ __|
+# | |___| (_) | | (_) | |  \__ \
+#  \_____\___/|_|\___/|_|  |___/
+#
+# This template section was automatically genereated. Please see $CONFIG/themes/* 
+# for examples!
+set $meta_description Debian theme by lasers
+set $window_colors_focused_border #d70a53
+set $window_colors_focused_background #d70a53
+set $window_colors_focused_text #ffffff
+set $window_colors_focused_indicator #8c0333
+set $window_colors_focused_inactive_border #333333
+set $window_colors_focused_inactive_background #333333
+set $window_colors_focused_inactive_text #888888
+set $window_colors_focused_inactive_indicator #333333
+set $window_colors_unfocused_border #333333
+set $window_colors_unfocused_background #333333
+set $window_colors_unfocused_text #888888
+set $window_colors_unfocused_indicator #333333
+set $window_colors_urgent_border #eb709b
+set $window_colors_urgent_background #eb709b
+set $window_colors_urgent_text #ffffff
+set $window_colors_urgent_indicator #eb709b
+set $bar_colors_separator #444444
+set $bar_colors_background #222222
+set $bar_colors_statusline #666666
+set $bar_colors_focused_workspace_border #d70a53
+set $bar_colors_focused_workspace_background #d70a53
+set $bar_colors_focused_workspace_text #ffffff
+set $bar_colors_active_workspace_border #333333
+set $bar_colors_active_workspace_background #333333
+set $bar_colors_active_workspace_text #888888
+set $bar_colors_inactive_workspace_border #333333
+set $bar_colors_inactive_workspace_background #333333
+set $bar_colors_inactive_workspace_text #888888
+set $bar_colors_urgent_workspace_border #eb709b
+set $bar_colors_urgent_workspace_background #eb709b
+set $bar_colors_urgent_workspace_text #ffffff
+
 #  ______                  _____              __ _                       _   _             
 #  | ___ \                /  __ \            / _(_)                     | | (_)            
 #  | |_/ / __ _ ___  ___  | /  \/ ___  _ __ | |_ _  __ _ _   _ _ __ __ _| |_ _  ___  _ __  
@@ -33,7 +75,7 @@ set $confdir $HOME/.config/i3
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Ubuntu Mono 10
+font pango:SauceCodePro Nerd Mono 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -55,24 +97,25 @@ font pango:Ubuntu Mono 10
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  status_command i3blocks -c ~/.config/i3/i3blocks.conf
-  position top
-  strip_workspace_numbers yes
-  font pango:Ubuntu, Awesome 10
-  colors {
-    separator #7d7d7d
-    background #141414
-    statusline #00b0ef
-    focused_workspace #00b0ef #141414 #00b0ef
-    active_workspace #141414 #141414 #00b0ef
-    inactive_workspace #141414 #141414 #7d7d7d
-    urgent_workspace #ff7066 #141414 #ff7066
-  }
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+    position top
+    strip_workspace_numbers yes
+    font pango:Ubuntu, Awesome 10
+    colors {
+        separator $bar_colors_separator
+        background $bar_colors_background
+        statusline $bar_colors_statusline
+        focused_workspace $bar_colors_focused_workspace_border $bar_colors_focused_workspace_background $bar_colors_focused_workspace_text
+        active_workspace $bar_colors_active_workspace_border $bar_colors_active_workspace_background $bar_colors_active_workspace_text
+        inactive_workspace $bar_colors_inactive_workspace_border $bar_colors_inactive_workspace_background $bar_colors_inactive_workspace_text
+        urgent_workspace $bar_colors_urgent_workspace_border $bar_colors_urgent_workspace_background $bar_colors_urgent_workspace_text
+    }
 }
-client.focused #00b0ef #00b0ef #141414 #ff7066
-client.focused_inactive #141414 #141414 #00b0ef #472b2a
-client.unfocused #141414 #141414 #7d7d7d #141414
-client.urgent #ff7066 #ff7066 #141414 #ff7066
+
+client.focused $window_colors_focused_border $window_colors_focused_background $window_colors_focused_text $window_colors_focused_indicator
+client.focused_inactive $window_colors_focused_inactive_border $window_colors_focused_inactive_background $window_colors_focused_inactive_text $window_colors_focused_inactive_indicator
+client.unfocused $window_colors_unfocused_border $window_colors_unfocused_background $window_colors_unfocused_text $window_colors_unfocused_indicator
+client.urgent $window_colors_urgent_border $window_colors_urgent_background $window_colors_urgent_text $window_colors_urgent_indicator
 
 #   _    _            _                                  
 #  | |  | |          | |                                 
@@ -84,16 +127,34 @@ client.urgent #ff7066 #ff7066 #141414 #ff7066
 #                             |_|                        
 # This section contains workspace names and other workspace specific options
 
-set $ws1 1: System
-set $ws2 2: Browser
-set $ws3 3: Files
+# Monitors
+set $mon0 eDP-1     # Laptop
+set $mon1 DP-1      # Main external monitor
+set $mon2 VGA-1     # 2nd external monitor
+
+# Names
+set $ws1 "1: System"
+set $ws2 "2: Browser"
+set $ws3 "3: Files"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 9: VirtualBox
-set $ws10 10: Spotify
+set $ws9 "9: VirtualBox"
+set $ws10 "10: Spotify"
+
+# Multiheado
+workspace $ws1 output $mon1
+workspace $ws2 output $mon1
+workspace $ws3 output $mon1
+workspace $ws4 output $mon1
+workspace $ws5 output $mon1
+workspace $ws6 output $mon2
+workspace $ws7 output $mon2
+workspace $ws8 output $mon2
+workspace $ws9 output $mon2
+workspace $ws10 output $mon2
 
 #   _    _ _           _                ______          __                                  
 #  | |  | (_)         | |               | ___ \        / _|                                 
@@ -108,12 +169,16 @@ set $ws10 10: Spotify
 # Window preferences
 for_window [instance="oblogout"] floating enabled
 for_window [instance="spotify"] move window to workspace $ws10
-
-for_window [class=".*"] title_format "<b> %title</b>"
+# Disable title bars completely (necessary for i3-gaps)
+for_window [class="^.*"] boarder pixel 3
 
 # Class assignments
 assign [class="Thunar"] $ws3
 assign [class="Chromium"] $ws2
+
+# Gaps
+gaps inner 5
+gaps outer 5
 
 #   _    _ _           _                ___  ___                                   ___  ___          _           
 #  | |  | (_)         | |               |  \/  |                                   |  \/  |         | |          
@@ -166,6 +231,7 @@ mode "Move workspace" {
 #                                |_|                     |___/                                                |_|            
 
 # Auto start
+exec --no-startuo-id xrandr --output DP-1 --auto --output VGA-1 --auto --left-of DP-1 --primary
 exec --no-startup-id volumeicon                             # Volume management
 exec --no-startup-id nm-applet                              # Network manager
 exec --no-startup-id xfce4-power-manager                    # Xfce4 power management
@@ -173,7 +239,7 @@ exec --no-startup-id compton -b -f                          # Window compositing
 
 exec --no-startup-id spotify
 
-exec_always --no-startup-id feh --bg-scale $confdir/desktop-wallpaper.jpg
+exec_always --no-startup-id nitrogen --restore
 
 #   _   __             _     _           _ _                 
 #  | | / /            | |   (_)         | (_)                
@@ -220,7 +286,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+h split 
 
 # split in vertical orientation
 bindsym $mod+v split v

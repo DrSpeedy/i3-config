@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIGD="$HOME/.config/i3"
+CONFIGD="$HOME/.dotfiles/i3"
 TEMPLATED="$CONFIGD/template"
 
 read -r -d '' CONFIGMSG <<'END_HEREDOC'
@@ -12,8 +12,8 @@ read -r -d '' CONFIGMSG <<'END_HEREDOC'
 #     \____/                 |_|                    |___/                                                               |___/ 
 #
 # This file was automatically genereated. Please DO NOT EDIT. Your changes will be erased on next login!
-# Configuration files can be found in $XDG_CONFIG_HOME/i3/template/*.conf. You may manually build i3's config
-# by running the `genconf` command located in the scripts directory (ex. usage `$ genconf > $XDG_CONFIG_HOME/i3/config)
+# Configuration files can be found in $CONFIG/i3/template/*.conf. You may manually build i3's config
+# by running the `genconf` command located in the scripts directory
 #
 # Resources for this project can be found on https://github.com/DrSpeedy/i3-config
 #
@@ -25,6 +25,7 @@ generate_config () {
     CONFIG="$CONFIGMSG\n\n"
     while read -r file; do
         CONFIG+="$(cat $TEMPLATED/$file)\n\n"
+        echo "$TEMPLATED/$file"
     done < <(ls -1 $TEMPLATED)
 
     echo -e "$CONFIG" > $CONFIGD/config

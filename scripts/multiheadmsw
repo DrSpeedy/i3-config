@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CONFIG="$HOME/.dotfiles/i3/config"
+mon0="$(cat "$CONFIG" | grep set | grep mon0 | cut -d " " -f 3)"
+mon1="$(cat "$CONFIG" | grep set | grep mon1 | cut -d " " -f 3)"
+mon2="$(cat "$CONFIG" | grep set | grep mon2 | cut -d " " -f 3)"
+
+docked() {
+    xrandr --output $mon0 --off
+    xrandr --output $mon1 --auto --output $mon2 --auto --left-of $mon1 --primary
+}
+
+undocked() {
+    xrandr --output $mon1 --off --output $mon2 --off
+    xrandr --output $mon0 --auto
+}
+
+case $1 in
+    1) docked;;
+    2) undocked;;
+    *) echo "$0 <number>; 1: docked mode, 2: undocked mode";;
+esac
+
+# Restore wallpaper settings
+nitrogen --restore
+

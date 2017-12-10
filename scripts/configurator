@@ -37,28 +37,6 @@ draw_theme_menu () {
 
 }
 
-draw_wallpaper_menu () {
-    
-    SOURCE="$CONFIGD/wallpapers"
-    WALLPAPERS=()
-    let i=0
-    while read -r line; do
-        let i=$i+1
-        WALLPAPERS+=($i "$line")
-    done < <(ls -1 "$SOURCE")
-
-    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
-    --title "[ WALLPAPER - MENU ]" \
-    --menu "$MENUTEXT" 20 75 8 \
-    "${WALLPAPERS[@]}" 3>&2 2>&1 1>&3)
-
-    if [ $? -eq 0]; then 
-        result=$(ls -1 $SOURCE | sed -n "`echo "$OPTION p" | sed 's/ //'`")
-        unlink $CONFIGD/desktop-wallpaper.jpg
-        ln -s $SOURCE/$result $CONFIGD/desktop-wallpaper.jpg
-        feh --bg-scale $CONFIGD/desktop-wallpaper.jpg
-    fi
-}
 
 draw_appearance_menu () {
     OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
@@ -75,6 +53,31 @@ draw_appearance_menu () {
             "Default Themes >") draw_theme_menu "[ DEFAULT - THEMES ]" $DEFAULT;;
             "Custom Themes >") draw_theme_menu "[ CUSTOM - THEMES ]" $CUSTOM;;
         esac
+        draw_appearance_menu
+    fi
+}
+
+##########
+# System #
+##########
+
+draw_system_menu () {
+    OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
+        --title "[ SYSTEM - MENU ]" \
+        --menu "$MENUTEXT" 20 75 8 \
+        "Network >" "VPN/Bluetooth/Internet settings" \
+        "Updates >" "Update the system" \
+        "Task Manager" "Monitor the system processes" \
+        "Reboot" "Reboot the system" 3>&2 2>&1 1>&3)
+
+    if [ $? -eq 0 ]; then
+        case $OPTION in
+            "Network >") draw_network_menu;;
+            "Updates >") draw_updates_menu;;
+            "Task Manager") top;;
+            "Reboot") exec reboot;;
+        esac
+        draw_system_menu
     fi
 }
 
@@ -82,18 +85,18 @@ draw_main_menu () {
     OPTION=$(dialog --clear --backtitle "[ I3 CONFIGURATOR ]" \
     --title "[ MAIN - MENU ]" \
     --menu "$MENUTEXT" 20 75 8 \
-    "Open Config" "Open gVim in config directory" \
-    "Appearance >" "Change appearance settings for i3" \
+    "i3 Configuration" "Open gVim in config directory" \
+    "i3 Appearance >" "Change appearance settings for i3" \
     "System >" "View/change ArchLinux system settings" \
-    "Restart i3" "Restart i3-wm" \
+    "Compile i3 Config" "Restart i3-wm" \
     "Exit" "Exit dialog" 3>&2 2>&1 1>&3)
 
     if [ $? -eq 0 ]; then
         case $OPTION in
-            "Open Config") exec gvim "+normal ,ei";;
-            "Appearance >") draw_appearance_menu;;
-            "System >") bash -x $CONFIGD/scripts/system-configurator;;
-            "Restart i3") i3-msg -q restart;;
+            "i3 Configuration") $EDITOR "+:cd $CONFIGD/template" "+normal -";;
+            "i3 Appearance >") draw_appearance_menu;;
+            "System >") draw_system_menu;;
+            "Compile i3 Config") $CONFIGD/scripts/genconf;;
             "Exit") exit 0;;
         esac
     else
