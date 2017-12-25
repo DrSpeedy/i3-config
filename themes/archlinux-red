@@ -5,7 +5,7 @@ meta:
   description: 'Archlinux theme by okraits <http://okraits.de>'
 window_colors:
   focused:
-    border:           '#0088CC'
+    border:           '#180B09'
     background:       '#0088CC'
     text:             '#ffffff'
     indicator:        '#dddddd'
@@ -25,22 +25,22 @@ window_colors:
     text:             '#ffffff'
     indicator:        '#900000'
 bar_colors:
-  separator:          '#666666'
-  background:         '#222222'
+  separator:          '#555555'
+  background:         '#171219'
   statusline:         '#dddddd'
   focused_workspace:
-    border:           '#0088CC'
-    background:       '#0088CC'
-    text:             '#ffffff'
+    border:           '#180B09'
+    background:       '#FF715B'
+    text:             '#F7F4F3'
   active_workspace:
     border:           '#333333'
-    background:       '#333333'
-    text:             '#ffffff'
+    background:       '#1EA896'
+    text:             '#F7F4F3'
   inactive_workspace:
     border:           '#333333'
-    background:       '#333333'
-    text:             '#888888'
+    background:       '#4C5454'
+    text:             '#B4B2B1'
   urgent_workspace:
-    border:           '#2f343a'
-    background:       '#900000'
-    text:             '#ffffff'
+    border:           '#4C5454'
+    background:       '#225560'
+    text:             '#F7F4F3'

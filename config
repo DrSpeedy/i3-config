@@ -6,8 +6,8 @@
 #     \____/                 |_|                    |___/                                                               |___/ 
 #
 # This file was automatically genereated. Please DO NOT EDIT. Your changes will be erased on next login!
-# Configuration files can be found in $XDG_CONFIG_HOME/i3/template/*.conf. You may manually build i3's config
-# by running the `genconf` command located in the scripts directory (ex. usage `$ genconf > $XDG_CONFIG_HOME/i3/config)
+# Configuration files can be found in $CONFIG/i3/template/*.conf. You may manually build i3's config
+# by running the `genconf` command located in the scripts directory
 #
 # Resources for this project can be found on https://github.com/DrSpeedy/i3-config
 #
@@ -22,38 +22,38 @@
 #
 # This template section was automatically genereated. Please see $CONFIG/themes/* 
 # for examples!
-set $meta_description Debian theme by lasers
-set $window_colors_focused_border #d70a53
-set $window_colors_focused_background #d70a53
+set $meta_description Archlinux theme by okraits <http://okraits.de>
+set $window_colors_focused_border #180B09
+set $window_colors_focused_background #0088CC
 set $window_colors_focused_text #ffffff
-set $window_colors_focused_indicator #8c0333
+set $window_colors_focused_indicator #dddddd
 set $window_colors_focused_inactive_border #333333
 set $window_colors_focused_inactive_background #333333
 set $window_colors_focused_inactive_text #888888
-set $window_colors_focused_inactive_indicator #333333
+set $window_colors_focused_inactive_indicator #292d2e
 set $window_colors_unfocused_border #333333
 set $window_colors_unfocused_background #333333
 set $window_colors_unfocused_text #888888
-set $window_colors_unfocused_indicator #333333
-set $window_colors_urgent_border #eb709b
-set $window_colors_urgent_background #eb709b
+set $window_colors_unfocused_indicator #292d2e
+set $window_colors_urgent_border #2f343a
+set $window_colors_urgent_background #900000
 set $window_colors_urgent_text #ffffff
-set $window_colors_urgent_indicator #eb709b
-set $bar_colors_separator #444444
-set $bar_colors_background #222222
-set $bar_colors_statusline #666666
-set $bar_colors_focused_workspace_border #d70a53
-set $bar_colors_focused_workspace_background #d70a53
-set $bar_colors_focused_workspace_text #ffffff
+set $window_colors_urgent_indicator #900000
+set $bar_colors_separator #555555
+set $bar_colors_background #171219
+set $bar_colors_statusline #dddddd
+set $bar_colors_focused_workspace_border #180B09
+set $bar_colors_focused_workspace_background #FF715B
+set $bar_colors_focused_workspace_text #F7F4F3
 set $bar_colors_active_workspace_border #333333
-set $bar_colors_active_workspace_background #333333
-set $bar_colors_active_workspace_text #888888
+set $bar_colors_active_workspace_background #1EA896
+set $bar_colors_active_workspace_text #F7F4F3
 set $bar_colors_inactive_workspace_border #333333
-set $bar_colors_inactive_workspace_background #333333
-set $bar_colors_inactive_workspace_text #888888
-set $bar_colors_urgent_workspace_border #eb709b
-set $bar_colors_urgent_workspace_background #eb709b
-set $bar_colors_urgent_workspace_text #ffffff
+set $bar_colors_inactive_workspace_background #4C5454
+set $bar_colors_inactive_workspace_text #B4B2B1
+set $bar_colors_urgent_workspace_border #4C5454
+set $bar_colors_urgent_workspace_background #225560
+set $bar_colors_urgent_workspace_text #F7F4F3
 
 #  ______                  _____              __ _                       _   _             
 #  | ___ \                /  __ \            / _(_)                     | | (_)            
@@ -133,16 +133,21 @@ set $mon1 DP-1      # Main external monitor
 set $mon2 VGA-1     # 2nd external monitor
 
 # Names
-set $ws1 "1: System"
-set $ws2 "2: Browser"
-set $ws3 "3: Files"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9: VirtualBox"
-set $ws10 "10: Spotify"
+set $nws1 "1: System"
+set $nws2 "2: Browser"
+set $nws3 "3: Files"
+set $nws4 "4: VirtualBox"
+set $nws5 "5: Spotify"
+set $ws1 "6:1"
+set $ws2 "7:2"
+set $ws3 "8:3"
+set $ws4 "9:4"
+set $ws5 "10:5"
+set $ws6 "11:6"
+set $ws7 "12:7"
+set $ws8 "13:8"
+set $ws9 "14:9"
+set $ws10 "15:10"
 
 # Multiheado
 workspace $ws1 output $mon1
@@ -168,17 +173,16 @@ workspace $ws10 output $mon2
 
 # Window preferences
 for_window [instance="oblogout"] floating enabled
-for_window [instance="spotify"] move window to workspace $ws10
+for_window [instance="spotify"] move window to workspace $nws5
 # Disable title bars completely (necessary for i3-gaps)
 for_window [class="^.*"] boarder pixel 3
 
 # Class assignments
-assign [class="Thunar"] $ws3
-assign [class="Chromium"] $ws2
+assign [class="Chromium"] $nws2
 
 # Gaps
-gaps inner 5
-gaps outer 5
+gaps inner 3
+gaps outer 3
 
 #   _    _ _           _                ___  ___                                   ___  ___          _           
 #  | |  | (_)         | |               |  \/  |                                   |  \/  |         | |          
@@ -231,7 +235,6 @@ mode "Move workspace" {
 #                                |_|                     |___/                                                |_|            
 
 # Auto start
-exec --no-startuo-id xrandr --output DP-1 --auto --output VGA-1 --auto --left-of DP-1 --primary
 exec --no-startup-id volumeicon                             # Volume management
 exec --no-startup-id nm-applet                              # Network manager
 exec --no-startup-id xfce4-power-manager                    # Xfce4 power management
@@ -309,6 +312,12 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # switch to workspace
+bindsym $alt+q workspace $nws1
+bindsym $alt+w workspace $nws2
+bindsym $alt+e workspace $nws3
+bindsym $alt+r workspace $nws4
+bindsym $alt+t workspace $nws5
+
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -321,6 +330,12 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
+bindsym $alt+Shift+q move container to workspace $nws1
+bindsym $alt+Shift+w move container to workspace $nws2
+bindsym $alt+Shift+e move container to workspace $nws3
+bindsym $alt+Shift+r move container to workspace $nws4
+bindsym $alt+Shift+t move container to workspace $nws5
+
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
@@ -339,6 +354,7 @@ bindsym $mod+Escape exec oblogout
 bindsym $mod+p exec rofi -theme $confdir/rofi/glue_pro_blue.rasi -show run
 bindsym $mod+i exec xfce4-terminal -x $confdir/scripts/configurator
 
+bindsym $mod+F12 exec --no-startup-id multiheadmsw 2
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

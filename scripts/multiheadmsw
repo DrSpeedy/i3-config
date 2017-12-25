@@ -1,13 +1,21 @@
 #!/bin/bash
+# Multihead mode switch
 
 CONFIG="$HOME/.dotfiles/i3/config"
+
+# Grab monitor names from the i3 config
 mon0="$(cat "$CONFIG" | grep set | grep mon0 | cut -d " " -f 3)"
 mon1="$(cat "$CONFIG" | grep set | grep mon1 | cut -d " " -f 3)"
 mon2="$(cat "$CONFIG" | grep set | grep mon2 | cut -d " " -f 3)"
 
-docked() {
+docked_wrkstat() {
     xrandr --output $mon0 --off
     xrandr --output $mon1 --auto --output $mon2 --auto --left-of $mon1 --primary
+}
+
+docked_tvmode() { 
+    xrandr --output $mon0 --off
+    xrandr --output $mon1 --auto --output $mon2 --auto --right-of $mon1 --primary
 }
 
 undocked() {
@@ -16,11 +24,11 @@ undocked() {
 }
 
 case $1 in
-    1) docked;;
+    1) docked_wrkstat;;
     2) undocked;;
-    *) echo "$0 <number>; 1: docked mode, 2: undocked mode";;
+    3) docked_tvmode;;
+    *) echo "$0 <option>; 1: docked workstation mode, 2: undocked mode, 3: docked tv mode";;
 esac
 
 # Restore wallpaper settings
 nitrogen --restore
-
