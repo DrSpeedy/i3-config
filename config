@@ -262,7 +262,7 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $alt+Shift+q kill
 
 # change focus
 bindsym $mod+j focus left
@@ -299,8 +299,8 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+d layout tabbed
+bindsym $mod+g layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -312,11 +312,11 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # switch to workspace
-bindsym $alt+q workspace $nws1
-bindsym $alt+w workspace $nws2
-bindsym $alt+e workspace $nws3
-bindsym $alt+r workspace $nws4
-bindsym $alt+t workspace $nws5
+bindsym $mod+q workspace $nws1
+bindsym $mod+w workspace $nws2
+bindsym $mod+e workspace $nws3
+bindsym $mod+r workspace $nws4
+bindsym $mod+t workspace $nws5
 
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -330,11 +330,11 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $alt+Shift+q move container to workspace $nws1
-bindsym $alt+Shift+w move container to workspace $nws2
-bindsym $alt+Shift+e move container to workspace $nws3
-bindsym $alt+Shift+r move container to workspace $nws4
-bindsym $alt+Shift+t move container to workspace $nws5
+bindsym $mod+Shift+q move container to workspace $nws1
+bindsym $mod+Shift+w move container to workspace $nws2
+bindsym $mod+Shift+e move container to workspace $nws3
+bindsym $mod+Shift+r move container to workspace $nws4
+bindsym $mod+Shift+t move container to workspace $nws5
 
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
@@ -348,18 +348,18 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+m mode "Move workspace"
-bindsym $mod+r mode "resize"
+bindsym $mod+b mode "resize"
 
 bindsym $mod+Escape exec oblogout
 bindsym $mod+p exec rofi -theme $confdir/rofi/glue_pro_blue.rasi -show run
-bindsym $mod+i exec xfce4-terminal -x $confdir/scripts/configurator
 
+# Switch xrandr back to laptop screen
 bindsym $mod+F12 exec --no-startup-id multiheadmsw 2
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+m restart
 # resize window (you can also use the mouse for that)
 
 # Extra keys
